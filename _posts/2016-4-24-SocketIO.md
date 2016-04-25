@@ -11,6 +11,7 @@ I'm pretty sure you're wrong.
 Flask, AngularJS, and HTML to all cooperate with each other. When I first saw the code I was given as a base I thought they were
 playing telephone with each other and keep away with me. Fun times. 
   The trickiest part about sockets and multiple languages is figuring out who is calling whom, and in what order. For example:
+
 ```
 $scope.join = function(room){
   $scope.room = room;
@@ -18,5 +19,6 @@ $scope.join = function(room){
   socket.emit('join', room);
 };
 ```
-  That just looks like a mess. So `$scope.join` is a function, that seems obvious. It takes a room, whatever that might be, as an
+
+    That just looks like a mess. So `$scope.join` is a function, that seems obvious. It takes a room, whatever that might be, as an
 argument. First line looks like it sets some variable as the argument pass. What in the world is console.log()? looks like a print statement.
