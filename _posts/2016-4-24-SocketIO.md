@@ -6,6 +6,7 @@ title: SocketIOOOO!
   You think sockets sound easy huh? Well nice try but these aren't your everyday plug in your cellphone and let it charge sockets. 
 These are some finnicky and confusing things. Think you know what you're doing just from looking at them once? Kudos to you bud, but 
 I'm pretty sure you're wrong.
+  
   Still with me? Cool, because sockets aren't actually that bad. Granted, when I first looked I was making a chatroom. I had to get
 Flask, AngularJS, and HTML to all cooperate with each other. When I first saw the code I was given as a base I thought they were
 playing telephone with each other and keep away with me. Fun times. 
