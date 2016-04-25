@@ -113,4 +113,15 @@ There's a submit, 2 variables, a disable, and another button that calls a differ
 {% endfor %}
 ```
 
-Angular decided not to do that. Instead it came up with its own thing. `ng-repeat`. Yep. That is a loop.
+Angular decided not to do that. Instead it came up with its own thing. `ng-repeat`. Yep. That is a loop. THe syntax for iterating through a variable and telling it to do something is nearly identical.
+
+```
+<p ng-repeat="msg in messages">
+ <b ng-bind="msg.name"></b>:&nbsp;
+ <span ng-bind="msg.text"></span>
+</p>
+```
+
+That displays each message with the name of the person who sent them with the a non-breaking space (`&nbsp`) in between into a chat box. And that right there is the final step in the chain of functions for joining a room. The HTML called the Angular function `changeRoom()`, which called the Flask function `join`, which did some stuff in a database in Postgresql and then went back to the Angular code and called `populate`, passing it the results from the database. `populate` then updated the Angular variable `$scope.messages` with what it got from Flask. `$scope.messages` was being used by the HTML in a for loop and so grabbed the new values and put them into the chat box.
+
+Whew! Thats a lot going on just update a single variable. But it's necessary. Not every language will work with every other language. Some languages were meant to only do certain things, so to get a versatile program working, there's a lot of running around. Chat rooms are a perfect example. HTML->AngularJS->Flask->Posgresql->Flask->AngularJS->HTML. Lot of middle-men there, but each one is necessary.
