@@ -37,4 +37,34 @@ def join(room):
 ```
 
   Oh ya, did I mention this also worked with Postgresql? Surprise! 4 things working together. But we can ignore the database code for now. I want to focus on 3 things: `session['room']`, `join_room(room)`, and `emit('populate', messages)`.
-  One of those is a variable, the other two are functions, one of which is calling another function. See how fast this is getting tangled up? Breathe. We got this. `session['room']` is a variable for the server so that it can keep track of all the users. Each user has their own `session['room']` with their own values for it. One user to one room. Keep that concept in mind. We'll be using it later. `join_room(room)` is another function. What does it do? It makes keeping groups of sockets tied to the same data a whole lot easier. Flask sockets have the concept of rooms built into them. Say Timmy, Anna, and Joe are all chatting it up in the big chatroom where everyone is. We'll call that room 'General'. They decide they want to leave 'General' and go have their own private conversation in another room, we'll call it 'Private' to keep things simple. What `join_room()` does is take the name of a room as an argument, and connect the socket that called it to that room. There's also a `leave_room()` which does the same thing, but as the name says, disconnects the socket from that room. If both are called with 'General' passed to `leave_room()`
+  One of those is a variable, the other two are functions, one of which is calling another function. See how fast this is getting tangled up? Breathe. We got this. `session['room']` is a variable for the server so that it can keep track of all the users. Each user has their own `session['room']` with their own values for it. One user to one room. Keep that concept in mind. We'll be using it later. `join_room(room)` is another function. What does it do? It makes keeping groups of sockets tied to the same data a whole lot easier. Flask sockets have the concept of rooms built into them. Say Timmy, Anna, and Joe are all chatting it up in the big chatroom where everyone is. We'll call that room 'General'. They decide they want to leave 'General' and go have their own private conversation in another room, we'll call it 'Private' to keep things simple. What `join_room()` does is take the name of a room as an argument, and connect the socket that called it to that room. There's also a `leave_room()` which does the same thing, but as the name says, disconnects the socket from that room. If both are called with 'General' passed to `leave_room()` and 'Private' passed to `join_room()` then Timmy, anna, and Joe will leave 'General' and move to 'Private'. After which only people in 'Private' will see their messages, and they won't see anything from 'General'.
+  
+  Now for that `emit()`. Is it calling a Flask function or an Angular function? If you guessed Flask, sorry bud. It's calling an Angular function. Weird, right? We were just sent here from Angular, and now we're going back. Now do you see why I thought the languages were playing keep-away with me and telephone with each other? In case you haven't figured it out, `emit('populate', messages)` is calling a function called emit and passing it a variable called messages. Messages came from that fancy stuff with databases, but don't worry about it actually is right now. Here's what emit called:
+  
+  ```
+socket.on('populate', function(messages){
+  console.log("in populate")
+  console.log(messages);
+  for(var i=0; i < messages.length; i++){
+    $scope.messages.push({'text': messages[i][1], 'name': messages[i][0]});
+    $scope.$apply();
+    }
+  console.log($scope.messages)
+});
+```
+
+I know, throwing a lot of stuff at you again, but it's not that bad. 2 prints to somewhere we still havent figured out, a for loop doing some stuff, and another print. Simple, right? Right. So what is that for loop actually doing? It's adding the messages we passed in to the `$scope.messages` variable, and then making sure those changes stick with `$scope.$apply()`. Remember when i told you to keep the concept of `session['room']` in your head? Here's why. In AngularJS, `$scope` is the equivalent of `session[]`. The user has their own unique scope, with it's own unique values. Usefull for a chatroom with who knows how many users with their own names and messages being sent out. And with multiple rooms, you can just clear out the `$scope.messages` variable and fill it with the new rooms messages without messing up anyone else.
+
+But how does the Angular not accidentaly call another Angular function, or Flask call Flask? It's the `emit()` and the syntax of the function declarations. Notice how both functions started.
+
+Flask
+```
+@socketio.on('join', namespace='/iss')
+def join(room):
+```
+AngularJS
+```
+socket.on('populate', function(messages){
+```
+
+Notice some similarities? One of the big ones is how they both have a form of `socket.on`. 
