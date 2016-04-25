@@ -74,4 +74,43 @@ AngularJS
 socket.on('populate', function(messages){
 ```
 
-Notice some similarities? One of the big ones is how they both have a form of `socket.on`. 
+Notice some similarities? The big one is how they both have a form of `socket.on`. This tells the program "Hey, I'm going to be called from another file!" This keeps functions from calling themselves when they emit something with the same name as them, and allows emit to know what it's calling.
+
+So we see how Angular calls Flask which then calls Angular and updates some variables, but what started this whole chain? The one language we havent talked about, HTML. Luckily this is the simplest part.
+
+In order for HTML to know its going to be using AngularJS, which is just a form of JavaScript, you have to tell it that theres a thing to work with.
+
+```
+<html ng-app="ISSChatApp">
+```
+
+But that isn't the name of a file, or a program, or even a function. It's a variable. At the top of your js file is this line:
+
+```
+var ISSChatApp = angular.module('ISSChatApp', []);
+```
+
+So anytime the HTML calls a function, its using that variable. Weird stuff.
+
+How does the HTML call the Angular functions? With this beautiful keyword prefix `ng-` followed by the event and the function you want to be called. `ng-` goes with almost everything. Variable? `ng-`. Function? `ng-`. Control whether or not something works? `ng-`. Not kidding with that last one. Say you don't want a button to work until the user has filled something out or clicked an "I Accept" or what have you. `ng-disabled=` and then the control statement such as `!password`. Here's an example of all of this put together:
+
+```
+<form ng-submit="processLogin()">
+<center>Username:</center>
+<center><input type="text"  ng-model="name2" placeholder="Username" size="14" /></center>
+<center>Password:</center>
+<center><input  ng-model="password" type="password" size="14" /></center>
+<center><input type="submit" class="span1 btn btn-primary" value="Send" ng-disabled="!password"></center>
+<center><input type="submit" class="span1 btn btn-primary" value="Register" ng-click="pullRegister()"></center>
+</form>
+```
+
+There's a submit, 2 variables, a disable, and another button that calls a different function. Angular also has it's own way of dealing with its variables in HTML. Say you want to use a for loop in HTML to go over a Python/Flask variable. You would probably do something like
+
+```
+{% for result in results %}
+  (whatever you want to display)
+{% endfor %}
+```
+
+Angular decided not to do that. Instead it came up with its own thing. `ng-repeat`. Yep. That is a loop.
