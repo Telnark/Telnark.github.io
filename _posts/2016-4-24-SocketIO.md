@@ -41,7 +41,7 @@ def join(room):
   
   Now for that `emit()`. Is it calling a Flask function or an Angular function? If you guessed Flask, sorry bud. It's calling an Angular function. Weird, right? We were just sent here from Angular, and now we're going back. Now do you see why I thought the languages were playing keep-away with me and telephone with each other? In case you haven't figured it out, `emit('populate', messages)` is calling a function called emit and passing it a variable called messages. Messages came from that fancy stuff with databases, but don't worry about it actually is right now. Here's what emit called:
   
-  ```
+```
 socket.on('populate', function(messages){
   console.log("in populate")
   console.log(messages);
@@ -58,11 +58,14 @@ I know, throwing a lot of stuff at you again, but it's not that bad. 2 prints to
 But how does the Angular not accidentaly call another Angular function, or Flask call Flask? It's the `emit()` and the syntax of the function declarations. Notice how both functions started.
 
 Flask
+
 ```
 @socketio.on('join', namespace='/iss')
 def join(room):
 ```
+
 AngularJS
+
 ```
 socket.on('populate', function(messages){
 ```
