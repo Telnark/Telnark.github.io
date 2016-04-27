@@ -43,4 +43,14 @@ try:
 except:
   print("Error doing whatever")
 ```
-This way, if the database rejects whatever you want to do, you have a print statement ready to go. 
+This way, if the database rejects whatever you want to do, you have a print statement ready to go. If you're using variables:
+
+```
+cur.execute("""whatever you're attempting with %s""", (variable,))
+```
+
+Using `%s` lets you substitute a variable in so your statement can be dynamic. Notice the `,` after `variable`. That's because `cur.execute()` uses tuples for variable substitution. So even if there is only one variable, it has to be in tuple form.
+
+If you're looking up something from the database, you can assign the results to an array of lists with `variable = cur.fetchall()`, which will let you index a whole list with `variable[index of list]` and an item of that list with `variable[index of list][index of item]`. If your code breaks anywhere in here then one of the following happened: with cloud 9 postgres might not be running, the user you used to connect might not have permissions to do what you want, or you messed up the syntax for the statement you were trying to execute. For the first one, enter 'sudo service postgres start' in your command line. To fix the last two, try executing your statement in Postgres directly and see what happens. It should give you a clue as to what happened.
+
+Once that works, you can do whatever you want with the results and pass them to whoever. Debugging Angular is just print statements with locations and variables as it doesn't ever touch the database directly.
