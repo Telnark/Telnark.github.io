@@ -4,12 +4,12 @@ title: About
 permalink: /about/
 ---
 
-Some information about you!
+I am a Senior at the University of Mary Washington and I plan on graduating in the fall of 2016 with a Bachelors Degree in Computer Scince. My goal is to work as a game developer where I will be able to utilize my skills solving ineteresting problems.
 
 ### More Information
 
-A place to include any other types of information that you'd like to include about yourself.
+I am proficient in C, C++, Java, and Python. I have experience with Postgresql, JavaScript, and HTML.
 
 ### Contact me
 
-[email@domain.com](mailto:email@domain.com)
+[tlackert94@gmail.com](mailto:tlackert94@gmail.com)
