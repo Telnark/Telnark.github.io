@@ -107,11 +107,7 @@ How does the HTML call the Angular functions? With this beautiful keyword prefix
 
 There's a submit, 2 variables, a disable, and another button that calls a different function. Angular also has it's own way of dealing with its variables in HTML. Say you want to use a for loop in HTML to go over a Python/Flask variable. You would probably do something like
 
-```
-{% for result in results %}
-  (whatever you want to display)
-{% endfor %}
-```
+![alt text](Telnark.github.io/htmlLoop.jpg)
 
 Angular decided not to do that. Instead it came up with its own thing. `ng-repeat`. Yep. That is a loop. THe syntax for iterating through a variable and telling it to do something is nearly identical.
 
